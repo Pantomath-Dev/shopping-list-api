@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: Shopping List API
+  description: |-
+    This API will allow clients to add, update, remove, and list items in their shopping list. 
+  contact:
+    email: sethjones348@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: shoppingList
+    description: Make updates to your shopping list!
+paths:
+  /shopping-list-items:
+    post:
+      tags:
+        - shoppingList
+      summary: Add a shopping list item
+      description: Add an item
+      operationId: addShoppingListItem
+      requestBody:
+        description: Shopping list item object containing details for the new item to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListItem'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListItemApiResponse'          
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: API key not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - api_key: [] #TODO: address this
+    get:
+      tags:
+        - shoppingList
+      summary: Get the list of shopping items
+      description: Fetch the list of shopping items
+      operationId: listShoppingListItems
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShoppingListItemApiResponse'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: API key not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - api_key: [] #TODO: address this
+  /shopping-list-items/{id}:
+    put:
+      tags:
+        - shoppingList
+      summary: Update a shopping list item
+      description: Update an existing item in your shopping list
+      operationId: updateShoppingListItem
+      parameters:
+        - name: id
+          in: path
+          description: ID of shopping list item to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Shopping list item object containing new item details to update the existing shopping item with
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListItem'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListItemApiResponse'          
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: API key not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - api_key: [] #TODO: address this
+    delete:
+      tags:
+        - shoppingList
+      summary: Remove a shopping list item
+      description: Remove an existing item from your shopping list
+      operationId: removeShoppingListItem
+      parameters:
+        - name: id
+          in: path
+          description: ID of shopping list item to remove
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: API key not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - api_key: [] #TODO: address this
+components:
+  schemas:
+    ShoppingListItem:
+      required:
+        - name
+        - price
+        - quantity
+      type: object
+      properties:
+        name:
+          type: string
+          example: milk
+        price:
+          type: integer
+          example: 2.59
+        quantity:
+          type: integer
+          example: 5
+    ShoppingListItemApiResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123456789
+        item:
+          $ref: '#/components/schemas/ShoppingListItem'
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: '400'
+        message:
+          type: string
+          example: 'Invalid input'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
