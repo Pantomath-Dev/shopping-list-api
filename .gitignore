@@ -31,4 +31,5 @@ npm-debug.log
 
 .DS_Store
 
-.env
+# I am ok including .env for this project
+#.env
