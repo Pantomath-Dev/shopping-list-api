@@ -12,6 +12,8 @@ const app: express.Application = express();
 // TODO: update this to use process.env.SERVER_PORT if you have time
 const port: number = 5000;
 
+app.use(express.json());
+
 routes.register(app);
 
 // Server setup
