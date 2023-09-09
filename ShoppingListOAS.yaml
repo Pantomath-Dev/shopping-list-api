@@ -46,7 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - api_key: [] #TODO: address this
+        - api_key: []
     get:
       tags:
         - shoppingList
@@ -75,7 +75,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - api_key: [] #TODO: address this
+        - api_key: []
   /shopping-list-items/{id}:
     put:
       tags:
@@ -118,7 +118,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - api_key: [] #TODO: address this
+        - api_key: []
     delete:
       tags:
         - shoppingList
@@ -149,7 +149,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - api_key: [] #TODO: address this
+        - api_key: []
 components:
   schemas:
     ShoppingListItem:

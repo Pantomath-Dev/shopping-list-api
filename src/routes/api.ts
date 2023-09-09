@@ -18,7 +18,6 @@ const validateShoppingListItemRequestBody = (req: express.Request, res: express.
     next();
 }
 
-//TODO: add auth
 export const register = (app: express.Application) => {
 
     const shoppingListController = new ShoppingListController();
